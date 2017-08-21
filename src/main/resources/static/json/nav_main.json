@@ -1,0 +1,36 @@
+{
+  "data": [
+    {
+      "text":"站点管理",
+      "icon": "&#xe620;",
+      "subset": [
+        {
+          "text": "新站点审核",
+          "icon": "&#xe621;",
+          "href": "/sites/news"
+        },
+        {
+          "text": "站点信息管理",
+          "icon": "&#xe621;",
+          "href": "/sites"
+        },
+        {
+          "text": "站点内容管理",
+          "icon": "&#xe621;",
+          "href": "/sites/contents"
+        }
+      ]
+    },
+    {
+      "text":"订阅管理",
+      "icon": "&#xe620;",
+      "subset": [
+        {
+          "text": "订阅邮箱管理",
+          "icon": "&#xe621;",
+          "href": "demo/btn.html"
+        }
+      ]
+    }
+  ]
+}

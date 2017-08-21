@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>新站点审核</title>
+    <link rel="stylesheet" href="../frame/layui/css/layui.css">
+    <link rel="stylesheet" href="../frame/static/css/style.css">
+    <link rel="icon" href="../frame/static/image/code.png">
+</head>
+<body class="body">
+
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>新提交站点</legend>
+</fieldset>
+
+<table class="layui-table">
+    <colgroup>
+        <col width="150">
+        <col width="150">
+        <col width="200">
+        <col>
+    </colgroup>
+    <thead>
+    <tr>
+        <th>编号</th>
+        <th>地址</th>
+        <th>提交时间</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>1</td>
+        <td><a href="#" class="url">http://baidu.com</a></td>
+        <td>1989-10-14 00:00:00</td>
+        <td>
+            <a class="layui-btn layui-btn-small btn-edit tg" data-id="1">通过</a>
+            <a class="layui-btn layui-btn-small layui-btn-danger btn-edit black" data-id="1">添加黑名单</a>
+        </td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td><a href="#" class="url">http://blog.zhangyingwei.com</a></td>
+        <td>1989-10-14 00:00:00</td>
+        <td>
+            <a class="layui-btn layui-btn-small btn-edit tg" data-id="2">通过</a>
+            <a class="layui-btn layui-btn-small layui-btn-danger btn-edit black" data-id="2">添加黑名单</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<script type="text/javascript" charset="utf8" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="/frame/layui/layui.js"></script>
+<script type="text/javascript">
+    // 配置
+    layui.config({
+        base: './../frame/static/js/'   // 模块目录
+    }).extend({                         // 模块别名
+        vip_table: 'vip_table'
+    });
+
+    // layui方法
+    layui.use(['form','layer','vip_tab'], function(){
+        var vipTab = layui.vip_tab;
+        $(".url").click(function () {
+            var url = $(this).html();
+            vipTab.add($(this),url,url);
+        });
+        $(".tg").click(function () {
+            var id = $(this).attr("data-id");
+            layer.alert("通过 - "+id);
+        })
+        $(".black").click(function () {
+            var id = $(this).attr("data-id");
+            layer.alert("黑名单 - "+id);
+        })
+    })
+</script>
+</body>
+</html>

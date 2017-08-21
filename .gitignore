@@ -1,0 +1,23 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### Java template
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
