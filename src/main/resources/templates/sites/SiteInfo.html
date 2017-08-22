@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/frame/layui/css/layui.css">
     <link rel="stylesheet" href="/frame/static/css/style.css">
     <link rel="icon" href="/frame/static/image/code.png">
+    <script type="text/javascript" src="/frame/layui/layui.js"></script>
 </head>
 <body class="body">
 
@@ -44,7 +45,7 @@
         <td th:text="${site.type}">java</td>
         <td th:text="${site.createdate}">1989-10-14 00:00:00</td>
         <td th:text="${site.updatedate}">1989-10-15 00:00:00</td>
-        <td>
+        <td th:attr="data-flag=${site.flag}">
             <span th:if="${site.flag == 0}" class="layui-labek">初始</span>
             <span th:if="${site.flag == 1}" class="layui-labek">正常</span>
             <span th:if="${site.flag == 2}" class="layui-labek">失效</span>
@@ -60,12 +61,47 @@
 <div id="pageContent"></div>
 <span id="pages" hidden th:text="${page.pages}"></span>
 <span id="pagecurrent" hidden th:text="${page.currentPage}"></span>
-<script type="text/javascript" charset="utf8" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="/frame/layui/layui.js"></script>
+<div id="editform" style="padding: 10px;" hidden>
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" disabled id="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">资源分组</label>
+            <div class="layui-input-block">
+                <input type="text" name="group" id="group" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">资源分类</label>
+            <div class="layui-input-block">
+                <input type="text" name="type" id="type" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <select name="state" id="state">
+                    <option value="-1">--请选择--</option>
+                    <option value="1">正常</option>
+                    <option value="9">删除</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
 <script type="text/javascript">
     // layui方法
-    layui.use(['form','layer','laypage'], function(){
+    layui.use(['form','layer','laypage','jquery'], function(){
         var laypage = layui.laypage;
+        var form = layui.form;
+        var layer = layui.layer;
+        var $ = layui.jquery;
         $(".url").click(function () {
             var url = $(this).attr("data-href");
             var title = $(this).html();
@@ -76,17 +112,48 @@
          */
         $(".tg").click(function () {
             var id = $(this).attr("data-id");
-            $.ajax({
-                type: 'PUT',
-                url: '/sites',
-                data: {
-                    id: 1,
-                    group: 'hello'
-                },
-                success: function (data) {
-                    layer.alert(data);
+            var title = $(this).parent().prev().prev().prev().prev().prev().prev().text();
+            var group = $(this).parent().prev().prev().prev().prev().prev().text();
+            var type = $(this).parent().prev().prev().prev().prev().text();
+            var state = $(this).parent().prev().attr("data-flag");
+            if(state != 1 && state != 9){
+                layer.alert("此状态不可以编辑");
+                return;
+            }
+            var from = $("#editform");
+            console.log(state);
+            from.find("#title").val(title);
+            from.find("#group").val(group);
+            from.find("#type").val(type);
+            from.find("#state").val(state);
+            layer.open({
+                type:1,
+                title: "站点信息编辑",
+                area:['600px','400px'],
+                content: from,
+                skin: "self-siteinfo"
+                ,btn: ['确定', '取消']
+                ,yes: function(index, layero){
+                    layer.alert(1);
+                }
+                ,btn2: function(index, layero){
+                    console.log("取消")
+                }
+                ,cancel: function(){
+                    layer.alert(1);
                 }
             });
+//            $.ajax({
+//                type: 'PUT',
+//                url: '/sites',
+//                data: {
+//                    id: 1,
+//                    group: 'hello'
+//                },
+//                success: function (data) {
+//                    layer.alert(data);
+//                }
+//            });
         })
         $(".black").click(function () {
             var id = $(this).attr("data-id");
@@ -102,7 +169,6 @@
             ,curr: curr
             ,jump: function(obj, first){
                 if(!first){
-                    layer.msg('第 '+ obj.curr +' 页');
                     window.location.href = "/sites/pages/" + obj.curr;
                 }
             }

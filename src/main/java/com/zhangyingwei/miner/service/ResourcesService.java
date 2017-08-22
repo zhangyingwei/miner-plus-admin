@@ -59,7 +59,14 @@ public class ResourcesService implements IResourcesService {
 
     @Override
     public void updateResourcesWithId(Resources resources) throws MinerServerException{
-
+        try {
+            if(resources.getId() == null){
+                throw new MinerServerException("resources.id is empty");
+            }
+            this.resourcesMapper.updateResourcesById(resources);
+        } catch (Exception e) {
+            throw new MinerServerException(e);
+        }
     }
 
 }

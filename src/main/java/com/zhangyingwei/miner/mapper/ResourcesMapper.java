@@ -1,6 +1,7 @@
 package com.zhangyingwei.miner.mapper;
 
 import com.zhangyingwei.miner.model.Resources;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -24,16 +25,22 @@ public interface ResourcesMapper {
     void updateResourcesState(@Param("id") String id,@Param("state") Integer state,@Param("updatadate") String updatedate) throws Exception;
 
     @UpdateProvider(type = ResourcesUpdateProvider.class, method = "updateResourcesById")
-    void updateResourcesById(Resources resources) throws Exception;
+    void updateResourcesById(@Param("res") Resources resources) throws Exception;
 
     class ResourcesUpdateProvider {
         public String updateResourcesById(Resources resources) {
             return new SQL(){{
                 UPDATE("mp_resources");
-                if(resources.getGroup() != null){
-                    SET("group=#{group}");
+                if (StringUtils.isNotBlank(resources.getGroup())) {
+                    SET("group=#{res.group}");
                 }
-
+                if(StringUtils.isNotBlank(resources.getType())){
+                    SET("type=#{res.type}");
+                }
+                if(resources.getFlag() != null){
+                    SET("flag=#{res.flag}");
+                }
+                WHERE("");
             }}.toString();
         }
     }
