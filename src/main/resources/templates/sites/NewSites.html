@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
@@ -33,22 +33,13 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>1</td>
-        <td><a href="#" class="url">http://baidu.com</a></td>
-        <td>1989-10-14 00:00:00</td>
+    <tr th:each="res:${sites}">
+        <td th:text="${res.id}">1</td>
+        <td><a href="#" th:text="${res.resources}" class="url">http://baidu.com</a></td>
+        <td th:test="${res.createdate}">1989-10-14 00:00:00</td>
         <td>
-            <a class="layui-btn layui-btn-small btn-edit tg" data-id="1">通过</a>
-            <a class="layui-btn layui-btn-small layui-btn-danger btn-edit black" data-id="1">添加黑名单</a>
-        </td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td><a href="#" class="url">http://blog.zhangyingwei.com</a></td>
-        <td>1989-10-14 00:00:00</td>
-        <td>
-            <a class="layui-btn layui-btn-small btn-edit tg" data-id="2">通过</a>
-            <a class="layui-btn layui-btn-small layui-btn-danger btn-edit black" data-id="2">添加黑名单</a>
+            <a class="layui-btn layui-btn-small btn-edit tg" th:attr="data-id=@{${res.id}}">通过</a>
+            <a class="layui-btn layui-btn-small layui-btn-danger btn-edit black" th:attr="data-id=@{${res.id}}">添加黑名单</a>
         </td>
     </tr>
     </tbody>
@@ -71,12 +62,46 @@
             vipTab.add($(this),url,url);
         });
         $(".tg").click(function () {
+            var index = layer.load();
             var id = $(this).attr("data-id");
-            layer.alert("通过 - "+id);
+//            layer.alert("通过 - "+id);
+            $.ajax({
+                type: "PUT",
+                url: "/sites/news/"+id,
+                success: function (data) {
+                    layer.close(index);
+                    if(data && data.state == 200){
+                        layer.msg(data.message);
+                        window.location.href = "/sites/news";
+                    }else{
+                        layer.msg("fail");
+                    }
+                },
+                error: function () {
+                    layer.close(index);
+                }
+            })
         })
         $(".black").click(function () {
+            var index = layer.load();
             var id = $(this).attr("data-id");
-            layer.alert("黑名单 - "+id);
+//            layer.alert("通过 - "+id);
+            $.ajax({
+                type: "DELETE",
+                url: "/sites/news/"+id,
+                success: function (data) {
+                    layer.close(index);
+                    if(data && data.state == 200){
+                        layer.msg(data.message);
+                        window.location.href = "/sites/news";
+                    }else{
+                        layer.msg("fail");
+                    }
+                },
+                error: function () {
+                    layer.close(index);
+                }
+            })
         })
     })
 </script>
