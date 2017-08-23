@@ -63,6 +63,7 @@
 <span id="pagecurrent" hidden th:text="${page.currentPage}"></span>
 <div id="editform" style="padding: 10px;" hidden>
     <form class="layui-form" action="">
+        <input type="text" hidden value="" id="id">
         <div class="layui-form-item">
             <label class="layui-form-label">名称</label>
             <div class="layui-input-block">
@@ -87,7 +88,6 @@
             <label class="layui-form-label">状态</label>
             <div class="layui-input-block">
                 <select name="state" id="state">
-                    <option value="-1">--请选择--</option>
                     <option value="1">正常</option>
                     <option value="9">删除</option>
                 </select>
@@ -121,43 +121,70 @@
                 return;
             }
             var from = $("#editform");
-            console.log(state);
             from.find("#title").val(title);
             from.find("#group").val(group);
             from.find("#type").val(type);
             from.find("#state").val(state);
+            from.find("#id").val(id);
             layer.open({
                 type:1,
                 title: "站点信息编辑",
                 area:['600px','400px'],
                 content: from,
-                skin: "self-siteinfo"
+                skin: "edit-siteinfo"
                 ,btn: ['确定', '取消']
                 ,yes: function(index, layero){
-                    layer.alert(1);
+                    var index = layer.load(1);
+                    var siteinfo = $(".edit-siteinfo");
+                    var id = siteinfo.find("#id").val();
+                    var title = siteinfo.find("#title").val();
+                    var group  = siteinfo.find("#group").val();
+                    var type = siteinfo.find("#type").val();
+                    var state = siteinfo.find("#state").val();
+                    var json = {
+                        id: id,
+                        title: title,
+                        group: group,
+                        type: type,
+                        state: state
+                    };
+
+                    $.ajax({
+                        type: "PUT",
+                        url: "/sites",
+                        data: json,
+                        success: function (data) {
+                            layer.close(index);
+                            if(data && data.state === 200){
+                                window.location.href = "/sites/pages/1";
+                            }else{
+                                layer.alert(data.message)
+                            }
+                        },
+                        error: function () {
+                            layer.close(index);
+                        }
+                    })
                 }
                 ,btn2: function(index, layero){
-                    console.log("取消")
+                    console.log("取消");
                 }
                 ,cancel: function(){
-                    layer.alert(1);
+                    console.log("取消");
                 }
             });
-//            $.ajax({
-//                type: 'PUT',
-//                url: '/sites',
-//                data: {
-//                    id: 1,
-//                    group: 'hello'
-//                },
-//                success: function (data) {
-//                    layer.alert(data);
-//                }
-//            });
         })
         $(".black").click(function () {
             var id = $(this).attr("data-id");
-            layer.alert("黑名单 - " + id);
+//            layer.alert("黑名单 - " + id);
+            var index = layer.load(1);
+            $.ajax({
+                type: "DELETE",
+                url: "/sites/"+id,
+                success: function (data) {
+                    layer.close(index);
+                }
+            })
         });
         const pages = $("#pages").text();
         const curr = $("#pagecurrent").text();

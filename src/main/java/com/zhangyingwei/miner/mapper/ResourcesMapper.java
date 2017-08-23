@@ -34,10 +34,10 @@ public interface ResourcesMapper {
                 if (StringUtils.isNotBlank(resources.getGroup())) {
                     SET("group=#{res.group}");
                 }
-                if(StringUtils.isNotBlank(resources.getType())){
+                if (StringUtils.isNotBlank(resources.getType())) {
                     SET("type=#{res.type}");
                 }
-                if(resources.getFlag() != null){
+                if (resources.getFlag() != null) {
                     SET("flag=#{res.flag}");
                 }
                 WHERE("");

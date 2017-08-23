@@ -19,4 +19,6 @@ public interface IResourcesService {
     void addToBlack(String id) throws MinerServerException;
 
     void updateResourcesWithId(Resources resources) throws MinerServerException;
+
+    void deleteResourcesById(String id) throws MinerServerException;
 }

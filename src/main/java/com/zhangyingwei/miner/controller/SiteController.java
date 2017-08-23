@@ -43,6 +43,12 @@ public class SiteController {
         return Ajax.RUSELT.success();
     }
 
+    @DeleteMapping("/{id}")
+    public Map deleteSite(@PathVariable("id") String id) throws MinerServerException {
+        this.resourcesService.deleteResourcesById(id);
+        return Ajax.RUSELT.success();
+    }
+
     @GetMapping("/news")
     public String news(Map model) throws MinerServerException {
         List<Resources> resources = this.resourcesService.listResourcesStateInit();
@@ -62,10 +68,5 @@ public class SiteController {
     public Map blackNews(@PathVariable("id") String id) throws MinerServerException {
         this.resourcesService.addToBlack(id);
         return Ajax.RUSELT.success();
-    }
-
-    @GetMapping("/contents")
-    public String content(){
-        return "sites/SiteContents";
     }
 }

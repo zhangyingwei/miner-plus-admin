@@ -7,6 +7,7 @@ public class Resources {
     public static final Integer FLAG_INIT = 0;
     public static final Integer FLAG_NOMAL = 1;
     public static final Integer FLAG_INVALID = 2;
+    public static final Integer FLAG_DEL = 9;
     private Integer id;
     private String resources;
     private String group;
