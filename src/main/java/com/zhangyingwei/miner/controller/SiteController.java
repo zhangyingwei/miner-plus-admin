@@ -40,7 +40,7 @@ public class SiteController {
     @ResponseBody
     public Map sitesManage(Resources resources) throws MinerServerException {
         logger.info(resources.toString());
-        return Ajax.RUSELT.success();
+        return Ajax.RESULT.success();
     }
 
     @GetMapping("/news")
@@ -54,14 +54,14 @@ public class SiteController {
     @ResponseBody
     public Map updateNews(@PathVariable("id") String id) throws MinerServerException {
         this.resourcesService.valid(id);
-        return Ajax.RUSELT.success();
+        return Ajax.RESULT.success();
     }
 
     @DeleteMapping("/news/{id}")
     @ResponseBody
     public Map blackNews(@PathVariable("id") String id) throws MinerServerException {
         this.resourcesService.addToBlack(id);
-        return Ajax.RUSELT.success();
+        return Ajax.RESULT.success();
     }
 
     @GetMapping("/contents")

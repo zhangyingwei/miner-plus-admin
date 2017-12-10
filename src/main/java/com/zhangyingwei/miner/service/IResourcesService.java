@@ -14,9 +14,13 @@ public interface IResourcesService {
 
     List<Resources> listResourcesAllWithPage(PageInfo pageInfo) throws MinerServerException;
 
+    List<Resources> listNewResourcesAllWithPage(PageInfo pageInfo) throws MinerServerException;
+
     void valid(String id) throws MinerServerException;
 
     void addToBlack(String id) throws MinerServerException;
 
     void updateResourcesWithId(Resources resources) throws MinerServerException;
+
+    List<String> listTypes() throws MinerServerException;
 }

@@ -70,4 +70,8 @@ public class PageInfo {
                 ", pages=" + pages +
                 '}';
     }
+
+    public boolean valid() {
+        return this.currentPage != -1;
+    }
 }

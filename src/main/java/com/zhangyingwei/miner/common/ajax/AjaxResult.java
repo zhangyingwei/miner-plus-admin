@@ -1,7 +1,10 @@
 package com.zhangyingwei.miner.common.ajax;
 
+import com.zhangyingwei.miner.common.Page.PageInfo;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by zhangyw on 2017/8/22.
@@ -16,6 +19,8 @@ public class AjaxResult {
 
     private static final String MSG_SUCCESS = "success";
     private static final String MSG_ERROR = "error";
+
+    private static final String KEY_PAGE = "page";
 
     private Map resultMap = new HashMap();
 
@@ -37,6 +42,11 @@ public class AjaxResult {
 
     public Map error(String errorMessage){
         return this.result(STATE_ERROR, errorMessage);
+    }
+
+    public AjaxResult page(PageInfo pageInfo) {
+        this.resultMap.put(KEY_PAGE, pageInfo);
+        return this;
     }
 
     private Map result(Integer stateError, String errorMessage) {

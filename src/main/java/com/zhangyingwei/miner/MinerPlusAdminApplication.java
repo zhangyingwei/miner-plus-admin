@@ -15,7 +15,6 @@ import org.springframework.context.annotation.PropertySource;
 @MapperScan(basePackages = { "com.zhangyingwei.miner.mapper"})
 @PropertySource("classpath:miner-admin.properties")
 public class MinerPlusAdminApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(MinerPlusAdminApplication.class, args);
 	}

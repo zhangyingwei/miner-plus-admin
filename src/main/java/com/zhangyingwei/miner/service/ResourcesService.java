@@ -40,6 +40,17 @@ public class ResourcesService implements IResourcesService {
     }
 
     @Override
+    public List<Resources> listNewResourcesAllWithPage(PageInfo pageInfo) throws MinerServerException {
+        try {
+            Integer count = this.resourcesMapper.countWithFlag(Resources.FLAG_INIT);
+            pageInfo.setTotal(count);
+            return this.resourcesMapper.listResourcesLimitWithFlag(pageInfo.getStart(), pageInfo.limit(),Resources.FLAG_INIT);
+        } catch (Exception e) {
+            throw new MinerServerException(e);
+        }
+    }
+
+    @Override
     public void valid(String id) throws MinerServerException{
         try {
             this.resourcesMapper.updateResourcesState(id,Resources.FLAG_NOMAL, DateTime.now().toString("yyyy-MM-dd HH:mm:ss"));
@@ -64,6 +75,16 @@ public class ResourcesService implements IResourcesService {
                 throw new MinerServerException("resources.id is empty");
             }
             this.resourcesMapper.updateResourcesById(resources);
+        } catch (Exception e) {
+            throw new MinerServerException(e);
+        }
+    }
+
+    @Override
+    public List<String> listTypes() throws MinerServerException {
+        try {
+            List<String> types = this.resourcesMapper.listTypes();
+            return types;
         } catch (Exception e) {
             throw new MinerServerException(e);
         }
