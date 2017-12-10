@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>内容管理</title>
-    <link rel="stylesheet" href="../frame/layui/css/layui.css">
-    <link rel="stylesheet" href="../frame/static/css/style.css">
-    <link rel="icon" href="../frame/static/image/code.png">
+    <link rel="stylesheet" href="/frame/layui/css/layui.css">
+    <link rel="stylesheet" href="/frame/static/css/style.css">
+    <link rel="icon" href="/frame/static/image/code.png">
 </head>
 <body class="body">
 
@@ -18,44 +18,43 @@
 </fieldset>
 
 <table class="layui-table">
-    <colgroup>
-        <col width="150">
-        <col width="150">
-        <col width="200">
-        <col>
-    </colgroup>
     <thead>
     <tr>
-        <th>编号</th>
+        <th style="max-width: 90px;">编号</th>
         <th>作者</th>
         <th>站点</th>
-        <th>标题</th>
+        <th style="max-width: 300px;">标题</th>
         <th>主题</th>
         <th>内容</th>
         <th>发布时间</th>
         <th>抓取时间</th>
-        <th>状态</th>
-        <th>操作</th>
+        <th style="min-width: 70px">状态</th>
+        <th style="min-width: 180px;">操作</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>1</td>
-        <td><a href="#" data-href="http://zhangyingwei.com" class="url">张英伟</a></td>
-        <td><a href="#" data-href="http://blog.zhangyingwei.com" class="url">张英伟的博客</a></td>
-        <td><a href="#" data-href="http://blog.zhangyingwei.com/articles/1" class="url">张英伟的博客的第一篇文章</a></td>
-        <td><span class="layui-label">java</span></td>
+    <tr th:each="ac:${unvalid}">
+        <td th:text="${ac.id}">1</td>
+        <td><a href="#" th:href="@{${ac.site}}" th:text="${ac.author}" class="url">张英伟</a></td>
+        <td><a href="#" th:href="@{${ac.site}}" th:text="${ac.sitename}" class="url">张英伟的博客</a></td>
+        <td><a href="#" th:href="@{${ac.url}}" th:text="${ac.title}" class="url">张英伟的博客的第一篇文章</a></td>
+        <td><span class="layui-label" th:text="${ac.topic}">java</span></td>
         <td>
             <button class="layui-btn layui-btn-primary layui-btn-small content-show" data-id="1"><i class="layui-icon">&#xe615;</i></button>
+            <div id="content" hidden th:text="${ac.content}"></div>
         </td>
-        <td>1989-10-14 00:00:00</td>
-        <td>1989-10-14 00:00:00</td>
+        <td th:text="${ac.pubdate}">1989-10-14 00:00:00</td>
+        <td th:text="${ac.getdate}">1989-10-14 00:00:00</td>
         <td>
-            <span class="layui-badge">正常</span>
+            <span th:if="${ac.state eq '0'}" class="layui-badge">初始</span>
+            <span th:if="${ac.state eq '1'}" class="layui-badge">正常</span>
+            <span th:if="${ac.state eq '2'}" class="layui-badge">失效</span>
+            <span th:if="${ac.state eq '3'}" class="layui-badge">不通过</span>
+            <span th:if="${ac.state eq '9'}" class="layui-badge">删除</span>
         </td>
         <td>
-            <a class="layui-btn layui-btn-small btn-edit tg" data-id="1">通过</a>
-            <a class="layui-btn layui-btn-small layui-btn-danger btn-edit black" data-id="1">添加黑名单</a>
+            <a class="layui-btn layui-btn-small btn-edit tg" th:attr="data-id=${ac.id}" data-id="1">通过</a>
+            <a class="layui-btn layui-btn-small layui-btn-danger btn-edit black" th:attr="data-id=${ac.id}" data-id="1">添加黑名单</a>
         </td>
     </tr>
     </tbody>
@@ -67,15 +66,9 @@
 </fieldset>
 
 <table class="layui-table">
-    <colgroup>
-        <col width="150">
-        <col width="150">
-        <col width="200">
-        <col>
-    </colgroup>
     <thead>
     <tr>
-        <th>编号</th>
+        <th style="max-width: 80px;">编号</th>
         <th>作者</th>
         <th>站点</th>
         <th>标题</th>
@@ -88,27 +81,34 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>1</td>
-        <td><a href="#" data-href="http://zhangyingwei.com" class="url">张英伟</a></td>
-        <td><a href="#" data-href="http://blog.zhangyingwei.com" class="url">张英伟的博客</a></td>
-        <td><a href="#" data-href="http://blog.zhangyingwei.com/articles/1" class="url">张英伟的博客的第一篇文章</a></td>
-        <td><span class="layui-label">java</span></td>
+    <tr th:each="vc:${allcontent}">
+        <td th:text="${vc.id}">1</td>
+        <td><a href="#" th:href="@{${vc.site}}" th:text="${vc.author}" class="url">张英伟</a></td>
+        <td><a href="#" th:href="@{${vc.site}}" th:text="${vc.sitename}" class="url">张英伟的博客</a></td>
+        <td><a href="#" th:href="@{${vc.url}}" th:text="${vc.title}" class="url">张英伟的博客的第一篇文章</a></td>
+        <td><span class="layui-label" th:text="${vc.topic}">java</span></td>
         <td>
             <button class="layui-btn layui-btn-primary layui-btn-small content-show" data-id="1"><i class="layui-icon">&#xe615;</i></button>
+            <div id="vcontent" hidden th:text="${vc.content}"></div>
         </td>
-        <td>1989-10-14 00:00:00</td>
-        <td>1989-10-14 00:00:00</td>
+        <td th:text="${vc.pubdate}">1989-10-14 00:00:00</td>
+        <td th:text="${vc.getdate}">1989-10-14 00:00:00</td>
         <td>
-            <span class="layui-badge">正常</span>
+            <span th:if="${vc.state == '0'}" class="layui-badge">初始</span>
+            <span th:if="${vc.state == '1'}" class="layui-badge">正常</span>
+            <span th:if="${vc.state == '2'}" class="layui-badge">失效</span>
+            <span th:if="${vc.state == '3'}" class="layui-badge">不通过</span>
+            <span th:if="${vc.state == '9'}" class="layui-badge">删除</span>
         </td>
         <td>
-            <a class="layui-btn layui-btn-small layui-btn-danger btn-edit black" data-id="1">添加黑名单</a>
+            <a class="layui-btn layui-btn-small layui-btn-danger btn-edit black" th:attr="data-id=${vc.id}" data-id="1">添加黑名单</a>
         </td>
     </tr>
     </tbody>
 </table>
 <div id="pageContent"></div>
+<span id="pages" hidden th:text="${page.pages}"></span>
+<span id="pagecurrent" hidden th:text="${page.currentPage}"></span>
 <script type="text/javascript" charset="utf8" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="/frame/layui/layui.js"></script>
 <script type="text/javascript">
@@ -120,33 +120,71 @@
             vipTab.add($(this),url,url);
         });
         $(".tg").click(function () {
+            var index = layer.load(1);
             var id = $(this).attr("data-id");
-            layer.alert("通过 - "+id);
+//            layer.alert("通过 - "+id);
+            $.ajax({
+                type: "PUT",
+                url: "/sites/contents/"+id,
+                success: function (data) {
+                    layer.close(index);
+                    if(data){
+                        if(data.state === 200){
+                            window.location.href = "/sites/contents/1";
+                        }else{
+                            layer.alert(data.message);
+                        }
+                    }else {
+                        console.log("valid 出错了");
+                    }
+                }
+            })
         })
         $(".black").click(function () {
+            var index = layer.load(1);
             var id = $(this).attr("data-id");
-            layer.alert("黑名单 - "+id);
+//            layer.alert("黑名单 - "+id);
+            $.ajax({
+                type: "DELETE",
+                url: "/sites/contents/"+id,
+                success: function (data) {
+                    layer.close(index);
+                    if(data){
+                        if(data.state === 200){
+                            window.location.href = "/sites/contents/1";
+                        }else{
+                            layer.alert(data.message);
+                        }
+                    }else {
+                        console.log("black 出错了");
+                    }
+                }
+            })
+
         })
         $(".content-show").click(function () {
-            var content = "<h1>hello</h1>";
+            var content = $(this).next("div");
             layer.open({
                 type: 1,
                 title: false,
                 area: ['800px','500px'],
                 closeBtn: 0,
                 shadeClose: true,
-                content: content
+                content: content.html()
             });
         })
 
+        const pages = $("#pages").text();
+        const curr = $("#pagecurrent").text();
         laypage({
             cont: 'pageContent'
-            , pages: 10 //总页数
+            , pages: pages //总页数
             , groups: 3 //连续显示分页数
             ,skip: true //指定页码跳转
+            ,curr: curr
             ,jump: function(obj, first){
                 if(!first){
-                    layer.msg('第 '+ obj.curr +' 页');
+                    window.location.href = "/sites/contents/" + obj.curr;
                 }
             }
         });
