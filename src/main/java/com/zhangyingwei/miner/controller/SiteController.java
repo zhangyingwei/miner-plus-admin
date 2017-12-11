@@ -46,7 +46,7 @@ public class SiteController {
     @DeleteMapping("/{id}")
     public Map deleteSite(@PathVariable("id") String id) throws MinerServerException {
         this.resourcesService.deleteResourcesById(id);
-        return Ajax.RUSELT.success();
+        return Ajax.RESULT.success();
     }
 
     @GetMapping("/news")

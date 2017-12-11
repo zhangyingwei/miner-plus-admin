@@ -23,4 +23,6 @@ public interface IResourcesService {
     void updateResourcesWithId(Resources resources) throws MinerServerException;
 
     List<String> listTypes() throws MinerServerException;
+
+    void deleteResourcesById(String id) throws MinerServerException;
 }

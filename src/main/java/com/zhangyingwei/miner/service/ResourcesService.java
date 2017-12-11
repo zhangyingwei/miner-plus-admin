@@ -90,4 +90,15 @@ public class ResourcesService implements IResourcesService {
         }
     }
 
+    @Override
+    public void deleteResourcesById(String id) throws MinerServerException {
+        Resources resources = new Resources();
+        resources.setId(Integer.parseInt(id));
+        resources.setFlag(Resources.FLAG_DEL);
+        try {
+            this.resourcesMapper.updateResourcesById(resources);
+        } catch (Exception e) {
+            throw new MinerServerException(e);
+        }
+    }
 }

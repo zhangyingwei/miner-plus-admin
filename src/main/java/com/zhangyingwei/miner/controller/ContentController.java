@@ -1,6 +1,5 @@
 package com.zhangyingwei.miner.controller;
 
-import com.sun.tools.corba.se.idl.ParameterGen;
 import com.zhangyingwei.miner.common.Page.PageInfo;
 import com.zhangyingwei.miner.common.ajax.Ajax;
 import com.zhangyingwei.miner.exception.MinerServerException;
@@ -9,7 +8,6 @@ import com.zhangyingwei.miner.service.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
 
@@ -39,14 +37,14 @@ public class ContentController {
     @ResponseBody
     public Map validContent(@PathVariable("id") String id) throws MinerServerException {
         this.contentService.validContent(id);
-        return Ajax.RUSELT.success();
+        return Ajax.RESULT.success();
     }
 
     @DeleteMapping("/{id}")
     @ResponseBody
     public Map addToBlack(@PathVariable("id") String id) throws MinerServerException {
         this.contentService.addContentToBlack(id);
-        return Ajax.RUSELT.success();
+        return Ajax.RESULT.success();
     }
 
 }
